@@ -37,3 +37,7 @@ jobs:
         login-server: ${{ env.ACR_SERVER }}
         username: ${{ secrets.ACR_USERNAME }}
         password: ${{ secrets.ACR_PASSWORD }}
+        
+     # Push Scanned Image to ACR
+    - name: Push scanned image to ${{ env.ACR_REPO_NAME }}
+      run: docker push ${{ env.ACR_SERVER }}/${{ env.ACR_REPO_NAME }}:${{ github.sha }}
