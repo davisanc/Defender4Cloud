@@ -41,3 +41,14 @@ jobs:
      # Push Scanned Image to ACR
     - name: Push scanned image to ${{ env.ACR_REPO_NAME }}
       run: docker push ${{ env.ACR_SERVER }}/${{ env.ACR_REPO_NAME }}:${{ github.sha }}
+      
+     # Post Results to ASC (App Insigths)
+    - name: Post result status to Azure Security Center
+      uses: Azure/publish-security-assessments@v0
+      with:
+        artifact-type: containerImage
+        scan-provider: trivy
+        connection-string: ${{ secrets.ASC_CONNECTION_STRING }}
+        subscription-token: ${{ secrets.ASC_AUTH_TOKEN }}
+        # Do not modify ${{ steps.container-scan.outputs.scan-report-path }} as it uses this path by default in Version 0.1
+        scan-results-path: ${{ steps.container-scan.outputs.scan-report-path }}
