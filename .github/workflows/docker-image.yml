@@ -29,3 +29,11 @@ jobs:
       with:
         image-name: ${{ env.ACR_SERVER }}/${{ env.ACR_REPO_NAME }}:${{ github.sha }}
         run-quality-checks: true  # run-quality-checks provides CIS benchmark assessment with Dockle
+        
+     # Login to ACR
+    - name: Login to Azure Container Registry
+      uses: Azure/docker-login@v1
+      with:
+        login-server: ${{ env.ACR_SERVER }}
+        username: ${{ secrets.ACR_USERNAME }}
+        password: ${{ secrets.ACR_PASSWORD }}
