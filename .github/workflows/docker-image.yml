@@ -1,0 +1,22 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    env:
+      ACR_REPO_NAME: web-dvwa
+      ACR_SERVER: acrninja.azurecr.io
+
+    steps:
+    # Build Docker Image
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ${{ env.ACR_SERVER }}/${{ env.ACR_REPO_NAME }}:${{ github.sha }}
