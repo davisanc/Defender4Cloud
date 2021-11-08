@@ -20,3 +20,12 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ${{ env.ACR_SERVER }}/${{ env.ACR_REPO_NAME }}:${{ github.sha }}
+        
+     # CICD Scan
+    - name: Scan Docker image using Azure Container Scan action
+      uses: Azure/container-scan@v0
+      id: container-scan
+      continue-on-error: true
+      with:
+        image-name: ${{ env.ACR_SERVER }}/${{ env.ACR_REPO_NAME }}:${{ github.sha }}
+        run-quality-checks: true  # run-quality-checks provides CIS benchmark assessment with Dockle
