@@ -12,7 +12,7 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      ACR_REPO_NAME: web-dvwa
+      ACR_REPO_NAME: web-dvwa/firefox
       ACR_SERVER: acrninja.azurecr.io
 
     steps:
